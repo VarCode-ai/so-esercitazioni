@@ -8,7 +8,7 @@
 
 int main(){
 
-        key_t shm_key = IPC_PRIVATE;
+    key_t shm_key = IPC_PRIVATE;
  	int ds_shm = shmget(shm_key, sizeof(int),IPC_CREAT|0664);
  	
  	if(ds_shm < 0) { 
@@ -17,7 +17,7 @@ int main(){
  	}
 
  	int * p = (int*) shmat(ds_shm, NULL, 0);
- 	if(p==(void*)-1) { 
+ 	if(p==(void*)-1) { //(void*)-1 puntatore non valido
  		perror("errore shmget!");
  		exit(1); 
  	}

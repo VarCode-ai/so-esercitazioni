@@ -7,10 +7,14 @@
 #include <sys/sem.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+#include <sys/ipc.h>
+#include <sys/shm.h>
 
 int inizializza_semafori()
 {
-    int sem_id = /* TBD: usare semget() per allocare un vettore,
+    int sem_id = semget(IPC_PRIVATE,1,IPC_CREAT|0664);/* TBD: usare semget() per allocare un vettore,
                   *      con un singolo semaforo "mutex" */
 
     if (sem_id < 0)
@@ -20,6 +24,8 @@ int inizializza_semafori()
     }
 
     /* Valore iniziale: 1 (mutua esclusione) */
+    semctl(sem_id,0,SETVAL,1);
+    printf("SEMAFORO %d INIZIALIZZATO AD 1\n", sem_id);
 
     /* TBD: inizializzare il mutex */
 
@@ -41,7 +47,6 @@ void figlio(int *vettore,
 
     for (int i = elemento_iniziale; i < elemento_iniziale + qta_elementi; i++)
     {
-
         if (vettore[i] < minimo)
         {
 
@@ -53,16 +58,21 @@ void figlio(int *vettore,
 
     if (minimo < *buffer)
     {
-
+        Wait_Sem(sem_id,0);
         *buffer = minimo;
+        Signal_Sem(sem_id,0);
     }
 }
 
 
-void padre(int *buffer,
-           int sem_id)
+void padre(int *buffer, int sem_id)
 {
 
+
+    for (int i = 0; i < NUM_PROCESSI; i++)
+    {
+        wait(NULL);
+    }
     /* Attesa terminazione processi figli */
 
     /* TBD: Utilizzare wait() per attendere la terminazione dei 10 figli */

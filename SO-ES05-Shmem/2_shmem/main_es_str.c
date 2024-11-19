@@ -19,8 +19,7 @@ int main(){
   		p = (char*) shmat(ds_shm, NULL, 0);
 
 	} else {
-  		
-                // la risorsa è stata appena creata
+        // la risorsa è stata appena creata
   		p = (char*) shmat(ds_shm, NULL, 0);
   		strncpy(p, "HELLO WORLD", sizeof("HELLO WORLD")); // inizializza
 

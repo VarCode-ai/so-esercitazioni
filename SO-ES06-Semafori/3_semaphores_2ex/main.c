@@ -7,6 +7,7 @@
 #include <limits.h>
 #include <time.h>
 #include <stdlib.h>
+#include <sys/wait.h>
 
 #include "processi.h"
 
@@ -19,7 +20,7 @@ int main()
     int *vettore;
     int *buffer;
 
-    vett_id = /* TBD: usare shmget() per creare un vettore di interi su 
+    vett_id = shmget(IPC_PRIVATE,sizeof(int)*NUM_ELEMENTI, IPC_CREAT|0664);/* TBD: usare shmget() per creare un vettore di interi su 
                *      memoria condivisa, con NUM_INTERI elementi */
 
     if (vett_id < 0)
@@ -28,7 +29,7 @@ int main()
         exit(1);
     }
 
-    vettore = /* TBD: usare shmat() per ottenere un puntatore */
+    vettore = shmat(vett_id,NULL,0);/* TBD: usare shmat() per ottenere un puntatore */
 
     if (vettore == (void *)-1)
     {
@@ -48,7 +49,7 @@ int main()
         //printf("%d\n", vettore[i]); // per debugging
     }
 
-    buffer_id = /* TBD: usare shmget() per creare un buffer singolo su
+    buffer_id = shmget(IPC_PRIVATE,sizeof(int),IPC_CREAT|0664);/* TBD: usare shmget() per creare un buffer singolo su
                  *      memoria condivisa, con un intero */
 
     if (buffer_id < 0)
@@ -57,7 +58,7 @@ int main()
         exit(1);
     }
 
-    buffer = /* TBD: usare shmat() per ottenere un puntatore */
+    buffer = shmat(buffer_id,NULL,0);/* TBD: usare shmat() per ottenere un puntatore */
 
     if (buffer == (void *)-1)
     {
@@ -80,6 +81,27 @@ int main()
 
     /* Avvio dei processi figli */
 
+    for (int i = 0; i < NUM_PROCESSI; i++)
+    {
+        int pid=fork();
+        printf("Pid processo %d\n", pid);
+        if (pid<0)
+        {
+            exit(1);
+        }
+        else if (pid==0)
+        {
+            figlio(vettore,buffer,sem_id,i*1000,1000);
+            exit(0);        
+        }
+        
+            
+        
+    }
+
+
+    
+    
     /* TBD: creare 10 processi figli, ognuno dei quali dovrà eseguire
      *      la funzione "figlio()". Alla funzione, passare come parametri:
      *      - il puntatore al vettore 
