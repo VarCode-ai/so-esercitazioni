@@ -2,6 +2,11 @@
 #include "sys/sem.h"
 #include "procedure.h"
 #include <stdlib.h>
+#include <errno.h>
+#include <unistd.h>
+#include <stdio.h>
+#include <sys/wait.h>
+
 
 int main(){
 
@@ -19,30 +24,39 @@ int main(){
     if(sem_id<0) { perror("SEM errore"); exit(1); }
 
     *p =0;
-    semctl(sem_id,MESSAGGIO_DISPONIBILE,0);
-    semctl(sem_id,SPAZIO_DISPONIBILE,1);
+    semctl(sem_id,MESSAGGIO_DISPONIBILE,SETVAL,0);
+    semctl(sem_id,SPAZIO_DISPONIBILE,SETVAL,1);
 
 
     
     //figli
+    int pidCons=fork();
+    if (pidCons==0)
+    {		
+        printf("Inizio figlio consumatore\n");
+        consumatore(p,sem_id);
+        exit(0);
+    }
+    
+
     int pidProd=fork();
     if (pidProd==0)
     {
-        produttore();
+        printf("Inizio figlio produttore\n");
+        produttore(p,sem_id);
         exit(0);
     }
     
-    int pidCons=fork();
-    if (pidCons==0)
-    {
-        consumatore();
-        exit(0);
-    }
     
     wait(NULL);
+    printf("Primo figlio terminato\n");
 
     wait(NULL);
+    printf("Secondo figlio terminato\n");
 
+    shmctl(shm_id,IPC_RMID,NULL);
+    semctl(sem_id,IPC_RMID,0);
+    
     //padre
     return 0;
 }

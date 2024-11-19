@@ -104,7 +104,7 @@ int main() {
 	}
 
         shmctl(ds_shm, IPC_RMID, NULL);
-        semctl(ds_sem, 0, IPC_RMID);
+        semctl(ds_sem, 0, IPC_RMID);//The argument semnum is ignored
 
         return 0;
 }
