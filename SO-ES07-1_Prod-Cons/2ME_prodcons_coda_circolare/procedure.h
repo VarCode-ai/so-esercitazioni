@@ -1,7 +1,7 @@
 
 #define DIM 4
-#define NUM_PRODUTTORI 6
-#define NUM_CONSUMATORI 6
+#define NUM_PRODUTTORI 15
+#define NUM_CONSUMATORI 15
 
 #define SPAZIO_DISP 0
 #define NUM_MESS 1

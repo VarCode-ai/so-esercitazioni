@@ -29,9 +29,9 @@ void init_monitor (Monitor *M,int num_var){
 
     semctl(M->mutex,0,SETVAL,1);
 
-
     //alloca e inizializza il semaforo per la coda urgent
     M->urgent_sem=semget(IPC_PRIVATE,1,IPC_CREAT|0664);
+
 
     semctl(M->urgent_sem,0,SETVAL,0);
 

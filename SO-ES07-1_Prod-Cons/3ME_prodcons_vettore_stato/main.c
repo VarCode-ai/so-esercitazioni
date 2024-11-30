@@ -6,6 +6,24 @@
 #include <stdlib.h>
 #include "sys/wait.h"
 #include <time.h>
+#include <stdbool.h>
+
+
+bool isInArray(int pid, int array[])
+{
+    bool isPresent=false;
+    for (int i = 0; i < 8; i++)
+    {
+        if (array[i] == pid)
+        {
+            isPresent = true;
+            break;
+        }
+    }
+    return isPresent;
+}
+
+
 
 int main(){
     key_t shm_key=IPC_PRIVATE;
@@ -21,6 +39,12 @@ int main(){
 
     semctl(ds_sem,SPAZIO_DISPONIBILE,SETVAL,DIM);
     semctl(ds_sem,MESSAGGIO_DISPONIBILE,SETVAL,0);
+    int *produttoriVeloci = shmat(shmget(IPC_PRIVATE, sizeof(int) * 8, IPC_CREAT | 0664), NULL, 0);
+    int *consumatoriVeloci = shmat(shmget(IPC_PRIVATE, sizeof(int) * 8, IPC_CREAT | 0664), NULL, 0);
+    for (int i = 0; i < 8; i++) {
+        produttoriVeloci[i] = -1;
+        consumatoriVeloci[i] = -1;
+    }
 
     for (int i = 0; i < NUM_CONS; i++)
     {
@@ -28,15 +52,16 @@ int main(){
         if (pid==0)
         {
             srand(getpid()*time(NULL));
-                if (i<=3)
+                if (i<=7)
                 {
-                    printf("porcesso CONSUMATORE lento, PID: %d\n",getpid());
-                    consumatore(p,ds_sem,i);
+                    consumatoriVeloci[i] = getpid();
+                    printf("porcesso CONSUMATORE veloce, PID: %d\n",getpid());
+                    consumatore(p,ds_sem,0);
                     exit(0);
                 }
                 else{
-                    printf("porcesso CONSUMATORE veloce, PID: %d\n",getpid());
-                    consumatore(p,ds_sem,0);
+                    printf("porcesso CONSUMATORE lento, PID: %d\n",getpid());
+                    consumatore(p,ds_sem,i%4);
                     exit(0);
                 }
                 
@@ -49,15 +74,16 @@ int main(){
         if (pid==0)
         {
             srand(getpid()*time(NULL));
-                if (i<=3)
+                if (i<=7)
                 {
-                    printf("porcesso PRODUTTORE lento, PID: %d\n",getpid());
-                    produttore(p,ds_sem,i);
+                    produttoriVeloci[i] = getpid();
+                    printf("porcesso PRODUTTORE veloce, PID: %d\n",getpid());
+                    produttore(p,ds_sem,0);
                     exit(0);
                 }
                 else{
-                    printf("porcesso PRODUTTORE veloce, PID: %d\n",getpid());
-                    produttore(p,ds_sem,0);
+                    printf("porcesso PRODUTTORE lento, PID: %d\n",getpid());
+                    produttore(p,ds_sem,i%4);
                     exit(0);
                 }
                 
@@ -66,8 +92,15 @@ int main(){
     
     for (int i = 0; i < NUM_CONS+NUM_PROD; i++)
     {
-        int pid=wait(NULL);
-        printf("processo con PID: %d è terminato\n",pid);
+        int pidd=wait(NULL);
+        if (isInArray(pidd, produttoriVeloci) || isInArray(pidd, consumatoriVeloci))
+        {
+            printf("Il processo VELOCE con PID: %d è terminato \n", pidd);
+        }
+        else
+        {
+            printf("Il processo LENTO con PID: %d è terminato \n", pidd);
+        }    
     }
 
     shmctl(ds_shm,IPC_RMID,NULL);
@@ -76,3 +109,4 @@ int main(){
     
     return 0;
 }
+

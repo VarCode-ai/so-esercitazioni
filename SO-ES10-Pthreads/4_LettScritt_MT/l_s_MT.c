@@ -21,7 +21,13 @@ int main(){
 
 
      //creazione di una istanza di struttura monitor
-     struct LettScritt * ls = malloc(sizeof(struct LettScritt));
+     struct LettScritt * ls = malloc(sizeof(struct LettScritt));//la struttura da condividere con i thread o la mettiamo in ambiente globale o in area heap(meglio in area heap)
+
+
+     //importante non mettere le variabili in shared memory con i pthread
+     //le variabili in shared memory servonom per condividere valori tra vari processi (creati con fork o exec) ma i thread sono tutti appartenenti allo stesso processo 
+     //quindi nons erve mettere in shared memory
+
 
      //inizializzazione mutex e condition
      pthread_mutex_init(&ls->mutex,NULL);
@@ -46,7 +52,7 @@ int main(){
 
 	if (k%2)  {
 	     printf("Sono il thread Lettore (%d)\n",k);
-	     pthread_create(&threads[k], &attr, Lettore, (void *) ls);
+	     pthread_create(&threads[k], &attr, Lettore, (void *) ls);//attr potrebbe pure essere NULL
 	   } else {
 	     sleep(1);
              printf("Sono il thread Scrittore (%d)\n",k);
@@ -65,7 +71,9 @@ int main(){
      pthread_cond_destroy(&ls->ok_lett_cv);
      pthread_cond_destroy(&ls->ok_scritt_cv);
 
-     free(ls);
+     free(ls);//libera memoria
 
      pthread_exit(0);
 }
+
+

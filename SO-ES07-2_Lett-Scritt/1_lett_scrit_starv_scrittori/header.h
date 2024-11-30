@@ -8,10 +8,8 @@
 typedef long  msg;
 
 typedef struct {
-
         int numlettori;
-        msg messaggio;
-    
+        msg messaggio;    
 } Buffer;
 
 

@@ -55,6 +55,7 @@ void Scrittore(int sem, Buffer* buf) {
         /*********Scrittura********/
         struct timeval t1;
         struct timezone t2;
+        
         gettimeofday(&t1, &t2); //per avere un valore diverso ad ogni produzione
         msg val = t1.tv_usec;
         buf->messaggio = val;

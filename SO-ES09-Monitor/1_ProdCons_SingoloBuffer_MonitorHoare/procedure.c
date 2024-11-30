@@ -1,5 +1,5 @@
 #include "procedure.h"
-
+#include <unistd.h>
 #include <stdio.h>
 
 void Produci(struct ProdCons * pc, int valore) {
@@ -20,8 +20,8 @@ void Produci(struct ProdCons * pc, int valore) {
 	pc->buffer_occupato = 1;
 
 	printf("Produzione (%d)\n", valore);
-
-	signal_condition( &(pc->m), VARCOND_CONSUMATORI );
+	sleep(2);
+	signal_condition( &(pc->m), VARCOND_CONSUMATORI);
 
 	leave_monitor( &(pc->m) );
 
@@ -48,6 +48,7 @@ int Consuma(struct ProdCons * pc) {
 	pc->buffer_occupato = 0;
 
 	printf("Consumazione (%d)\n", valore);
+	sleep(2);
 
 	signal_condition( &(pc->m), VARCOND_PRODUTTORI );
 

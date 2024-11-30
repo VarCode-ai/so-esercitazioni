@@ -9,8 +9,8 @@
 
 #include "procedure.h"
 
-#define NUM_PRODUTTORI 1
-#define NUM_CONSUMATORI 1
+#define NUM_PRODUTTORI 3
+#define NUM_CONSUMATORI 3
 
 
 int main() {

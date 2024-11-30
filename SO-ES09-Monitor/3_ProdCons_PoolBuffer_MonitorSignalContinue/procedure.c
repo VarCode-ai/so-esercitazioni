@@ -42,6 +42,7 @@ void Produci(struct ProdCons * pc, int valore) {
 	pc->stato[i] = OCCUPATO;
 	pc->numero_occupati++;
 
+
 	signal_condition( &(pc->m), VARCOND_CONSUMATORI );
 
 	leave_monitor( &(pc->m) );
@@ -58,7 +59,6 @@ int Consuma(struct ProdCons * pc) {
 	printf("Ingresso monitor - consumazione\n");
 
 	while( pc->numero_occupati == 0 ) {
-
 		printf("Sospensione - consumazione\n");
 		wait_condition( &(pc->m), VARCOND_CONSUMATORI );
 		printf("Riattivazione - consumazione\n");

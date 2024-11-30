@@ -1,7 +1,7 @@
 
 #define DIM 4
-#define NUM_CONS 8
-#define NUM_PROD 8
+#define NUM_CONS 15
+#define NUM_PROD 15
 
 #define MUTEXP 0
 #define MUTEXC 1

@@ -1,6 +1,9 @@
 {
     "files.associations": {
         "atomic": "c",
-        "unistd.h": "c"
+        "unistd.h": "c",
+        "syscall.h": "c",
+        "stdio.h": "c",
+        "cstdlib": "c"
     }
 }

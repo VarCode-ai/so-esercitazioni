@@ -9,8 +9,8 @@
 
 #include "procedure.h"
 
-#define NUM_PRODUTTORI 1
-#define NUM_CONSUMATORI 1
+#define NUM_PRODUTTORI 3
+#define NUM_CONSUMATORI 3
 
 
 int main() {
@@ -39,7 +39,6 @@ int main() {
 	pc->buffer_occupato = 0;
 
 
-
 	int j;
 	pid_t pid;
 
@@ -52,12 +51,10 @@ int main() {
 			// figlio consumatore
 
 			printf("Inizio consumatore\n");
-
 			int valore = Consuma( pc );
-
 			printf("Consumazione: %d\n", valore);
-
 			exit(0);
+			
 		}
 		else if( pid < 0 ) {
 			perror("errore fork");
@@ -80,7 +77,7 @@ int main() {
 
 			sleep(5);
 
-			srand(time(NULL));
+			srand(getpid() * time(NULL));
 
 			int valore = rand() % 10;
 

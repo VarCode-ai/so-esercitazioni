@@ -72,7 +72,6 @@ int main(){
 
                 if (pid == 0)  {                //processo figlio
                         if ((k%2) == 0) {
-        
                                 printf("sono il figlio scrittore. Il mio pid %d \n", getpid());
                                 Scrittore(id_sem, ptr_sh);
                         }else {

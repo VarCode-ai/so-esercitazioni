@@ -9,7 +9,7 @@
 #include <string.h>
 #include <pthread.h>
 #include "header.h"
-
+#include <time.h>
 
 
 
@@ -66,7 +66,7 @@ msg Leggi(struct LettScritt * ls) {
 		//int my_id = syscall(SYS_gettid);
 
                 uint64_t my_id;
-                pthread_threadid_np(NULL, &my_id);
+                pthread_threadid_np(NULL, &my_id);//serve per ottenere l'id del threead. se facciamo getpid() otteniamo sempre lo stesso processo, se vogliamo possiamo gfare getTid
 
 	        printf("Thread #%llu, valore LETTO = [%ld] \n", my_id, ls->mess);
 
@@ -102,11 +102,11 @@ void Scrivi(struct LettScritt * ls, msg m) {
 /* Metodi privati del monitor */
 
 void InizioLettura(struct LettScritt * ls){
-	pthread_mutex_lock(&ls->mutex);
+	pthread_mutex_lock(&ls->mutex);//entriamo nel monitor
 
-	while (ls->num_scrittori>0) {
+	while (ls->num_scrittori>0) {//usiamo while perché è un monitor signal e continue
 		ls->num_lettori_wait++;
-		pthread_cond_wait(&ls->ok_lett_cv, &ls->mutex);
+		pthread_cond_wait(&ls->ok_lett_cv, &ls->mutex);//vengono mandati sempre indirizzi
 		ls->num_lettori_wait--;
 	}
 
@@ -174,7 +174,7 @@ void FineScrittura (struct LettScritt * ls){
 
 		/* risveglia tutti i lettori in attesa */
 
-		pthread_cond_broadcast(&ls->ok_lett_cv);
+		pthread_cond_broadcast(&ls->ok_lett_cv);//signal hoare
 	}
 
 	pthread_mutex_unlock(&ls->mutex);
