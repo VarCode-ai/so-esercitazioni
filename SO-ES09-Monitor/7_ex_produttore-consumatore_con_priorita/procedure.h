@@ -4,14 +4,20 @@
 #include "monitor_signal_continue.h"
 
 #define DIM 3
+#define VAR_CONDITIONS 3
+
+#define PRODUTTORE_VELOCE 1
+#define PRODUTTORE_LENTO 1
+#define MESSAGGIO_DISPONIBILE 3
 
 typedef struct{
 	int buffer[DIM];
-	
-	/* TBD: Completare la definizione di questa struttura,
-	 *      aggiungendo un sotto-oggetto Monitor, le variabili testa e coda,
-	 *      ed eventualmente (a scelta dello studente) una variabile "contatore"
-	 */
+
+	int testa;
+	int coda;
+	int count;
+	int num_lettori_alta_priorita;
+	Monitor m;
 }PriorityProdCons;
 
 

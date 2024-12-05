@@ -6,7 +6,8 @@
 #define SYNCHL 0
 #define SYNCHS 1
 
-
+#define VARCOND_LETTORI 1
+#define VARCOND_SCRITTORI 2 
 typedef struct {
 	int temperatura;
 	unsigned int umidita;
@@ -17,6 +18,9 @@ typedef struct {
 typedef struct {
 	meteo meteo;
 	/* TBD: aggiungere qui le variabili di stato per la sincronizzazione */
+	int num_lettori;
+	int num_scrittori;
+	
 } Buffer;
 
 

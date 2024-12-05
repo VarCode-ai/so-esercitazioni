@@ -30,11 +30,11 @@ int main(int argc,char* argv[])
     
     //richiesta del buffer
 
-	id_prod_cons= /* TBD: Allocare una memoria condivisa per la struttura "PriorityProdCons" */
+	id_prod_cons= shmget(IPC_PRIVATE,sizeof(PriorityProdCons),IPC_CREAT|0664);/* TBD: Allocare una memoria condivisa per la struttura "PriorityProdCons" */
 
 	printf("[DEBUG] - id_monitor=%d \n",id_prod_cons);
     
-	p = /* TBD: Effettuare l'attach della memoria condivisa */
+	p = (PriorityProdCons*) (shmat(id_prod_cons,NULL,0)); /* TBD: Effettuare l'attach della memoria condivisa */
 	
     inizializza_prod_cons(p);
 
@@ -53,7 +53,7 @@ int main(int argc,char* argv[])
 			while(i < NUM_PRODUZIONI_1){
 				
 				/* TBD: Chiamare la funzione produci_alta_prio(...) */
-
+				produci_alta_prio(p);
 				sleep(1);
 				i++;
 			}
@@ -71,7 +71,7 @@ int main(int argc,char* argv[])
 			while(i < NUM_PRODUZIONI_2){
 				
 				/* TBD: Chiamare la funzione produci_bassa_prio(...) */
-
+				produci_bassa_prio(p);
 				sleep(1);
 				i++;
 			}
@@ -89,7 +89,7 @@ int main(int argc,char* argv[])
 				sleep(2);
 				
 				/* TBD: Chiamare la funzione consuma(...) */
-
+				consuma(p);
 				i++;
 			}
 			_exit(0);

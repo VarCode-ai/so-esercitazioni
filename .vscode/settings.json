@@ -4,6 +4,8 @@
         "unistd.h": "c",
         "syscall.h": "c",
         "stdio.h": "c",
-        "cstdlib": "c"
+        "cstdlib": "c",
+        "errno.h": "c",
+        "cliente.h": "c"
     }
 }

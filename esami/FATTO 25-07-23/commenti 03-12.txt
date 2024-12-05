@@ -1,0 +1,1 @@
+ho sbagliato solo che ho utilizzato due condition variables (una per acquisto e una per vendita) quando era necessaria solo una, e fare poi la signal broadcast.

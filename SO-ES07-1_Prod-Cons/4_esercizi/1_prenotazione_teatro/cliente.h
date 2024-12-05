@@ -7,6 +7,7 @@
 
 #define NUM_CLIENTI 50
 #define POSTI 80
+
 typedef struct {
     unsigned int id_cliente;
     unsigned int stato; 

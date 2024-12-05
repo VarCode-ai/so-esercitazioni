@@ -22,10 +22,9 @@ void cliente(prodcons *p,int ds_sem){
             p->posti[i].stato = IN_AGGIORNAMNTO; // in_aggiornamento
             p->posti[i].id_cliente = getpid();
             prenotati++;
-            
         }
     }
-    p->disponibilità-=4;
+    p->disponibilità-=num;
     Signal_Sem(ds_sem,MUTEXP);
     
 

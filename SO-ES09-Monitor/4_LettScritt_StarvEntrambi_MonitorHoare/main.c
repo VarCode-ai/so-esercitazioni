@@ -55,9 +55,6 @@ int main() {
 			// figlio lettore
 
 			printf("Inizio lettore\n");
-
-
-
 			int k;
 
 			for(k=0; k<LETTURE; k++) {

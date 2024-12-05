@@ -46,8 +46,8 @@ msg Consuma(struct ProdCons * pc) {
 		// NOTA: la chiamata di sistema "gettid()" è disponibile solo
 		// sul sistema operativo Linux (non è portabile su altre piattaforme)
 		//int my_id = syscall(SYS_gettid);
-                uint64_t my_id;
-                pthread_threadid_np(NULL, &my_id);
+            uint64_t my_id;
+            pthread_threadid_np(NULL, &my_id);
 
 	        printf("Thread #%llu, valore CONSUMATO = [%ld] \n", my_id, pc->mess);
 
