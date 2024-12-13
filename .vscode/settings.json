@@ -6,6 +6,7 @@
         "stdio.h": "c",
         "cstdlib": "c",
         "errno.h": "c",
-        "cliente.h": "c"
+        "cliente.h": "c",
+        "stdlib.h": "c"
     }
 }

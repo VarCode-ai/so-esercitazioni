@@ -1,7 +1,6 @@
 /*************************************Monitor*************************************************/
 // Implementazione di un Monitor Signal and Continue 
 
-
 #include <sys/ipc.h>
 #include <sys/types.h>
 #include <sys/sem.h>
@@ -93,7 +92,7 @@ void remove_monitor(Monitor* M){
     shmctl(M->id_shared,IPC_RMID,0);
 
 #ifdef DEBUG_
-    printf(" \n Il Monitor è stato rimosso ! Arrivederci \n", getpid());
+    printf(" \n Il Monitor è stato rimosso ! Arrivederci %d\n", getpid());
 #endif
 
 }

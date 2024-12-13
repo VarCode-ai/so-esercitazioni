@@ -46,7 +46,7 @@ void init_monitor (Monitor *M,int num_var){
     //alloca un contatore per ogni var.condition, più un contatore per la coda urgent
     M->id_shared=shmget(IPC_PRIVATE,(num_var+1)*sizeof(int),IPC_CREAT|0664);
 
-    printf("(num_var+1)*sizeof(int) = %d\n", (num_var+1)*sizeof(int));
+    printf("(num_var+1)*sizeof(int) = %ld\n", (num_var+1)*sizeof(int));
 
     //effettua l'attach all'array di contatori appena allocato
     M->cond_counts=(int*) (shmat(M->id_shared,0,0));

@@ -1,5 +1,5 @@
 #include "procedure.h"
-
+#include <unistd.h>
 #include <stdio.h>
 
 void Produci(struct ProdCons * pc, int valore) {
@@ -22,8 +22,11 @@ void Produci(struct ProdCons * pc, int valore) {
 	printf("Produzione (%d)\n", valore);
 
 	signal_condition( &(pc->m), VARCOND_CONSUMATORI );
-
+	printf("PRODUZIONE KTM\n");
+	sleep(10);
+	
 	leave_monitor( &(pc->m) );
+	
 
 	printf("Uscita monitor - produzione\n");
 }

@@ -1,6 +1,7 @@
 /*************************************Monitor*************************************************/
 // Implementazione di un Monitor Signal and Continue 
 
+#define DEBUG_
 
 #include <sys/ipc.h>
 #include <sys/types.h>
@@ -93,7 +94,7 @@ void remove_monitor(Monitor* M){
     shmctl(M->id_shared,IPC_RMID,0);
 
 #ifdef DEBUG_
-    printf(" \n Il Monitor è stato rimosso ! Arrivederci \n", getpid());
+    printf(" \n Il Monitor è stato rimosso ! Arrivederci %d \n", getpid());
 #endif
 
 }
@@ -110,7 +111,7 @@ void wait_condition(Monitor* M,int id_var){
     printf("<%d> -Monitor- invocata la wait sulla condition numero %d\n", getpid(), id_var);
 #endif
 
-      M->cond_counts[id_var]=M->cond_counts[id_var]+1;
+    M->cond_counts[id_var]=M->cond_counts[id_var]+1;
 
 
 #ifdef DEBUG_
