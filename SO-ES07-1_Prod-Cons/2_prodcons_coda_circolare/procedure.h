@@ -1,3 +1,5 @@
+////////////// PROD-CONS VETTORE CIRCOLARE//////////////////////
+
 #define SPAZIO_DISPONIBILE 0
 #define MESSAGGIO_DISPONIBILE 1
 #define MUTEX_P 2

@@ -7,6 +7,9 @@
         "cstdlib": "c",
         "errno.h": "c",
         "cliente.h": "c",
-        "stdlib.h": "c"
+        "stdlib.h": "c",
+        "algorithm": "c",
+        "header.h": "c",
+        "semafori.h": "c"
     }
 }

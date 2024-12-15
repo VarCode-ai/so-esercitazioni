@@ -8,6 +8,7 @@
 #include <pthread.h>
 
 
+//////////// LETT-SCRITT STARVATION ENTRAMBI THREAD ////////////
 
 struct monitor {
 
@@ -27,8 +28,8 @@ struct monitor {
 
 void inizializza(struct monitor * m);
 void rimuovi (struct monitor * m);
-void scrivi_molo(struct monitor * m, int molo);
-int leggi_molo(struct monitor * m);
+void scrittura(struct monitor * m, int molo);
+int lettura(struct monitor * m);
 
 
 
